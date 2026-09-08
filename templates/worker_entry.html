@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Site Work & Attendance Entry</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>🛠️ தினசரி வேலை & வருகைப் பதிவு</h2>
+        <p>வரவேற்கிறோம், <strong>{{ session.full_name }}</strong> | <a href="/logout">வெளியேறு (Logout)</a></p>
+        {% if msg %}<p style="color:green;">{{ msg }}</p>{% endif %}
+        <form method="POST">
+            <div class="form-group">
+                <label>தேதி (Date):</label>
+                <input type="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label>வேலை நடக்கும் ஊர் / இடம் (Site Location):</label>
+                <input type="text" name="location" placeholder="எ.கா: மதுரை, கே.கே.நகர்" required>
+            </div>
+            <div class="form-group">
+                <label>வாடிக்கையாளர் பெயர் (Customer Name):</label>
+                <input type="text" name="customer_name" required>
+            </div>
+            <div class="form-group">
+                <label>முடிந்த வேலை விவரம் (Work Details):</label>
+                <textarea name="work_details" rows="3" style="width:100%;" required placeholder="எ.கா: Truss Welding மற்றும் Purlin அமைக்கும் வேலை முடிந்தது"></textarea>
+            </div>
+            <div class="form-group">
+                <label>வந்த ஆட்கள் எண்ணிக்கை (Workers Count):</label>
+                <input type="number" name="workers_count" value="1" required>
+            </div>
+            <div class="form-group">
+                <label>அன்றைய சைட் செலவுகள் (Expenses ₹):</label>
+                <input type="number" step="any" name="expenses" value="0">
+            </div>
+            <button type="submit">பதிவு செய் (Submit Entry)</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <title>கணக்கீடு விவரம் #{{ log.id }} - VMK Roofing ERP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">🛠️ VMK Roofing ERP</div>
+        <div class="nav-links">
+            <a href="/">⬅️ முதன்மை பக்கம் (Back to Calculator)</a>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 800px; margin-top: 30px;">
+        <div class="result-box" style="background: rgba(30, 41, 59, 0.85); padding: 25px; border-radius: 12px; border: 1px solid #38bdf8;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #38bdf8; padding-bottom: 10px;">
+                <h2 style="color: #38bdf8; margin: 0;">📜 கணக்கீடு அறிக்கை (Detailed History)</h2>
+                <span style="color: #94a3b8; font-size: 0.9em;">ID: #{{ log.id }} | {{ log.timestamp }}</span>
+            </div>
+
+            <div style="margin-top: 20px; background: rgba(15, 23, 42, 0.6); padding: 15px; border-radius: 8px;">
+                <p style="font-size: 1.1em;"><strong>👤 கஸ்டமர் பெயர்:</strong> <span style="color: #38bdf8;">{{ log.customer_name }}</span></p>
+                <p style="font-size: 1.1em;"><strong>📍 ஊர் / இடம்:</strong> <span style="color: #facc15;">{{ log.location }}</span></p>
+                <p><strong>📅 கணக்கிடப்பட்ட தேதி:</strong> {{ log.timestamp }}</p>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h3 style="color: #facc15;">🏠 அளவுகள் மற்றும் கூரை வகை:</h3>
+                <p><strong>நீளம் x அகலம்:</strong> {{ log.length }} அடி x {{ log.width }} அடி</p>
+                <p><strong>மொத்த பரப்பளவு:</strong> {{ log.total_area }} Sq.Ft</p>
+                <p><strong>கூரை வகை (Roof Style):</strong> {{ log.roof_style }}</p>
+                <p><strong>ஷீட் வகை (Sheet Type):</strong> {{ log.sheet_type }}</p>
+            </div>
+
+            <hr style="margin: 20px 0; border-color: #475569;">
+
+            <div>
+                <h3 style="color: #22c55e;">💰 மொத்த தொகையீடு:</h3>
+                <h2 style="color: #22c55e; margin-top: 5px;">₹ {{ log.grand_total }}</h2>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <button onclick="window.print()" style="background: #0284c7; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 1em;">🖨️ இந்த அறிக்கையை பிரிண்ட் / PDF செய்க</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

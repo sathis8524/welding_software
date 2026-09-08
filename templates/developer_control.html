@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sathish Developer Hidden Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 950px;">
+        <h2>👨‍💻 Sathish V - Developer Control Center</h2>
+        {% if not authenticated %}
+            <h3>Developer Key Verification:</h3>
+            {% if msg %}<p style="color:red;">{{ msg }}</p>{% endif %}
+            <form method="POST">
+                <input type="password" name="master_key" placeholder="Enter Developer Secret Master Key" required>
+                <button type="submit" style="margin-top:10px;">Access System Control</button>
+            </form>
+        {% else %}
+            <p style="color:green; font-weight:bold;">Status: Authenticated as Super Developer</p>
+            <hr>
+            <h3>1. All User Accounts & Passwords in System:</h3>
+            <table class="cost-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Role</th>
+                    <th>Username</th>
+                    <th>Password (Unencrypted)</th>
+                </tr>
+                {% for u in users %}
+                <tr>
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.full_name }}</td>
+                    <td>{{ u.role }}</td>
+                    <td><strong>{{ u.username }}</strong></td>
+                    <td style="color:red;"><strong>{{ u.password }}</strong></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <hr style="margin-top:30px;">
+            <h3>2. Complete Database Work Logs (All Clients):</h3>
+            <table class="cost-table">
+                <tr>
+                    <th>Log ID</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Customer</th>
+                    <th>Work Details</th>
+                    <th>Expenses</th>
+                    <th>User</th>
+                </tr>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.id }}</td>
+                    <td>{{ log.date }}</td>
+                    <td>{{ log.location }}</td>
+                    <td>{{ log.customer_name }}</td>
+                    <td>{{ log.work_details }}</td>
+                    <td>₹ {{ log.expenses }}</td>
+                    <td>{{ log.submitted_by }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>

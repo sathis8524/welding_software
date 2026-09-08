@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - System Access</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 400px; margin-top: 50px;">
+        <h2>🔐 உள்நுழைவு (Login)</h2>
+        {% if msg %}<p style="color:red;">{{ msg }}</p>{% endif %}
+        <form method="POST">
+            <div class="form-group">
+                <label>பயனர் பெயர் (Username):</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="form-group">
+                <label>கடவுச்சொல் (Password):</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit">உள்நுழை (Login)</button>
+        </form>
+    </div>
+</body>
+</html>

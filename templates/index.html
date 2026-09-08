@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <title>Roofing Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">🛠️ VMK Roofing ERP</div>
+        <div class="nav-links">
+            <a href="/">Home / Calculator</a>
+            <a href="/login">Login</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>கூரை & ஃபேப்ரிகேஷன் செலவு கணக்கிடுப்பான்</h2>
+        
+        <form method="POST" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label>👤 கஸ்டமர் பெயர் (Customer Name):</label>
+                <input type="text" name="customer_name" required placeholder="எ.கா: சுரேஷ்">
+            </div>
+
+            <div class="form-group">
+                <label>📍 இடம் / ஊர் (Site Location):</label>
+                <input type="text" name="location" required placeholder="எ.கா: மதுரை / திருமங்கலம்">
+            </div>
+
+            <div class="form-group">
+                <label>கூரை வகை (Roof Style):</label>
+                <select name="roof_type" required>
+                    <option value="single">ஒற்றைச் சாய்வு கூரை (Single Slope)</option>
+                    <option value="double">இரட்டைச் சாய்வு கூரை (A-Type Double Slope)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>மொத்த நீளம் (Feet):</label>
+                <input type="number" step="any" name="length" required placeholder="20">
+            </div>
+
+            <div class="form-group">
+                <label>மொத்த அகலம் (Feet):</label>
+                <input type="number" step="any" name="width" required placeholder="10">
+            </div>
+
+            <div class="form-group">
+                <label>ஷீட் வகை (Sheet Type):</label>
+                <select name="sheet_type" required>
+                    <option value="asbestos">ஆஸ்பெஸ்டாஸ் ஷீட்</option>
+                    <option value="cooling">கூலிங் / மெட்டல் ஷீட்</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>1. மெயின் ட்ரஸ் கம்பி (Truss Pipe):</label>
+                <select name="truss_pipe">
+                    <option value='3" x 1.5" Rectangular Pipe'>3" x 1.5" Rectangular Pipe</option>
+                    <option value='4" x 2" Rectangular Pipe'>4" x 2" Rectangular Pipe</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>2. ஷீட் தாங்கும் கம்பி (Purlin Pipe):</label>
+                <select name="purlin_pipe">
+                    <option value='2.5" x 1.5" Rectangular Pipe'>2.5" x 1.5" Rectangular Pipe</option>
+                    <option value='2" x 1" Rectangular Pipe'>2" x 1" Rectangular Pipe</option>
+                    <option value='2" x 2" Square Pipe'>2" x 2" Square Pipe</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>ட்ரஸ் ஃபிரேம் இடைவெளி (Feet):</label>
+                <input type="number" step="any" name="truss_spacing" value="8" required>
+            </div>
+
+            <div class="form-group">
+                <label>தாங்கு தூண்கள் & சுவர் அமைப்பு (Support Layout):</label>
+                <select name="support_type" required>
+                    <option value="2_pillars_wall">🚗 2 தூண்கள் + பின்பக்கம் சுவர் ஆதரவு (2 Pillars + Wall Mount)</option>
+                    <option value="4_pillars">🏛️ 4 தூண்கள் கொண்ட தனி அமைப்பு (4 Free Standing Pillars)</option>
+                    <option value="no_pillars">🧱 தூண்கள் இல்லை - சுவரில் மட்டும் (Wall Mount Only)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>3. தாங்கு தூண் வகை (Pillar Type):</label>
+                <select name="pillar_type" required>
+                    <option value="gp_square">🔳 GP சதுர தூண் கம்பி</option>
+                    <option value="ms_square_4x4">🔳 MS சதுர தூண் கம்பி</option>
+                    <option value="gp_round">⚪ GP ரவுண்ட் பைப்</option>
+                    <option value="ms_round">🔘 MS ரவுண்ட் பைப்</option>
+                    <option value="cement">🧱 சிமெண்ட் தூண்</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>📷 Site Photo Upload (Optional - Drawing Overlay):</label>
+                <input type="file" name="site_photo" accept="image/*">
+            </div>
+
+            <button type="submit">கணக்கிடு (Calculate)</button>
+        </form>
+
+        {% if result %}
+           
+            <div class="result-box" style="margin-top: 30px; background: rgba(30, 41, 59, 0.7); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                <h3 style="color: #38bdf8; border-bottom: 2px solid #38bdf8; padding-bottom: 8px;">📊 கணக்கீடு முடிவுகள்:</h3>
+                
+                <p><strong>தேர்ந்தெடுக்கப்பட்ட கூரை:</strong> {{ result.roof_type_name }}</p>
+                <p><strong>ஒரு பக்க சாய்வு நீளம் (Slope Length):</strong> {{ result.slope_length }} அடி</p>
+                <p><strong>🏠 உள் கூடு அளவு (Pillar Span):</strong> ~ {{ result.inner_room_span }} அடி</p>
+                
+                <hr style="margin: 15px 0; border-color: #475569;">
+
+                <p><strong>தேர்ந்தெடுக்கப்பட்ட ஷீட்:</strong> {{ result.sheet_name }}</p>
+                <p><strong>மொத்த ஷீட்டுகள்:</strong> <span style="color:#facc15; font-weight:bold;">{{ result.total_sheets }} எண்ணம்</span></p>
+
+                <hr style="margin: 15px 0; border-color: #475569;">
+
+                <h4 style="color: #38bdf8;">⚒️ கம்பி மற்றும் தூண்கள் விவரம்:</h4>
+                <p><strong>1. மெயின் ட்ரஸ் கம்பிகள் (Truss Frames):</strong> {{ result.truss_frames_count }} ஃபிரேம்கள்</p>
+                <p style="color: #cbd5e1; font-size: 0.9em; margin-left: 15px;">கம்பி வகை: {{ result.truss_pipe_name }} | மொத்த அடி: {{ result.total_truss_feet }} Feet</p>
+                <p style="color: #38bdf8; font-weight: bold; margin-left: 15px;">20 அடி முழு கம்பிகள்: {{ result.total_truss_full_pipes }} எண்ணம்</p>
+
+                <p style="margin-top: 10px;"><strong>2. ஷீட் தாங்கு கம்பிகள் (Purlins):</strong> {{ result.total_purlin_lines }} வரிசைகள்</p>
+                <p style="color: #cbd5e1; font-size: 0.9em; margin-left: 15px;">கம்பி வகை: {{ result.purlin_pipe_name }} | மொத்த அடி: {{ result.total_purlin_feet }} Feet</p>
+                <p style="color: #38bdf8; font-weight: bold; margin-left: 15px;">20 அடி முழு கம்பிகள்: {{ result.total_purlin_full_pipes }} எண்ணம்</p>
+
+                <p style="margin-top: 10px;"><strong>3. தாங்கு தூண்கள் (Pillars - 10ft Height):</strong> {{ result.total_pillars }} எண்ணம்</p>
+                <p style="color: #cbd5e1; font-size: 0.9em; margin-left: 15px;">மொத்த அடி: {{ result.total_pillar_feet }} Feet | 20 அடி கம்பிகள்: {{ result.total_pillar_full_pipes }} எண்ணம்</p>
+
+                <hr style="margin: 15px 0; border-color: #475569;">
+
+                <p><strong>ஷீட் + Ridge Cap செலவு:</strong> ₹ {{ result.total_sheet_cost }}</p>
+                <p><strong>மொத்தக் கம்பிகள் + தூண்கள் செலவு:</strong> ₹ {{ result.total_pipe_cost }}</p>
+                <h3 style="color: #22c55e; margin-top: 10px;">மொத்த தோராய செலவு: ₹ {{ result.grand_total }}</h3>
+
+                <!-- BLUEPRINT DRAWING SECTION -->
+                <div style="text-align: center; margin-top: 25px; background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid #38bdf8;">
+                    <h4 style="color: #38bdf8; margin-bottom: 10px;">📐 2D Structural Blueprint & Framework Design:</h4>
+                    <img src="{{ url_for('static', filename='roof_blueprint.png') }}" style="max-width: 100%; border-radius: 6px; border: 1px solid #475569;">
+                </div>
+            </div>
+        
+        {% endif %}
+
+        <!-- CALCULATION HISTORY SECTION -->
+        {% if history_logs %}
+            <hr style="margin: 30px 0; border-color: #475569;">
+            <h3>📜 முந்தைய கணக்கீடுகளின் வரலாறு (Calculation History)</h3>
+            
+            <table class="cost-table" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>கஸ்டமர் பெயர்</th>
+                        <th>ஊர் / இடம்</th>
+                        <th>நேரம்</th>
+                        <th>அளவு (நீளம் x அகலம்)</th>
+                        <th>மொத்த பரப்பளவு</th>
+                        <th>கூரை வகை</th>
+                        <th>ஷீட் வகை</th>
+                        <th>மொத்த தொகையீடு</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for h in history_logs %}
+                    <tr>
+                        <td>
+                            <a href="/history/{{ h.id }}" style="color: #38bdf8; font-weight: bold; text-decoration: underline;">
+                                #{{ h.id }} (பார்க்க 🔍)
+                            </a>
+                        </td>
+                        <td><strong style="color: #38bdf8;">{{ h.customer_name or 'N/A' }}</strong></td>
+                        <td>📍 {{ h.location or 'N/A' }}</td>
+                        <td>
+                            <a href="/history/{{ h.id }}" style="color: #cbd5e1; text-decoration: none;">
+                                <small>{{ h.timestamp }}</small>
+                            </a>
+                        </td>
+                        <td>{{ h.length }}ft x {{ h.width }}ft</td>
+                        <td>{{ h.total_area }} Sq.Ft</td>
+                        <td>{{ h.roof_style }}</td>
+                        <td>{{ h.sheet_type }}</td>
+                        <td><strong style="color: #22c55e;">₹ {{ h.grand_total }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+    </div>
+</body>
+</html>

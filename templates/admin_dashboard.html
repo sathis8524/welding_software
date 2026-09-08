@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Site Logs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container" style="max-width: 900px;">
+        <h2>📊 சைட் வேலைகள் & வருகை கண்காணிப்பு (Admin Dashboard)</h2>
+        <p>நிர்வாகி: <strong>{{ session.full_name }}</strong> | <a href="/logout">வெளியேறு (Logout)</a></p>
+        <hr>
+        <h3>தினசரி சைட் பதிவுகள்:</h3>
+        <table class="cost-table">
+            <tr>
+                <th>தேதி</th>
+                <th>ஊர் / இடம்</th>
+                <th>வாடிக்கையாளர்</th>
+                <th>வேலை விவரம்</th>
+                <th>ஆட்கள்</th>
+                <th>செலவு (₹)</th>
+                <!-- <th>பதிவிட்டவர்</th> -->
+            </tr>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.date }}</td>
+                <td>{{ log.location }}</td>
+                <td>{{ log.customer_name }}</td>
+                <td>{{ log.work_details }}</td>
+                <td>{{ log.workers_count }}</td>
+                <td>₹ {{ log.expenses }}</td>
+                <!-- <td>{{ log.submitted_by }}</td> -->
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
